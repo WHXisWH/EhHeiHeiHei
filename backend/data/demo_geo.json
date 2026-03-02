@@ -1,0 +1,51 @@
+{
+  "pois": [
+    {
+      "poi_id": "poi_shibuya_109",
+      "name": "涩谷 109",
+      "category_cn": "购物",
+      "category": "shopping",
+      "lat": 35.6595,
+      "lon": 139.7005,
+      "is_open": true,
+      "bldg_use_cn": "商业设施"
+    },
+    {
+      "poi_id": "poi_familymart_1",
+      "name": "全家便利店",
+      "category_cn": "便利店",
+      "category": "convenience",
+      "lat": 35.6598,
+      "lon": 139.7012,
+      "is_open": true,
+      "bldg_use_cn": "商业设施"
+    },
+    {
+      "poi_id": "poi_starbucks_1",
+      "name": "星巴克涩谷店",
+      "category_cn": "咖啡",
+      "category": "cafe",
+      "lat": 35.6592,
+      "lon": 139.6998,
+      "is_open": true,
+      "bldg_use_cn": "商业设施"
+    }
+  ],
+  "buildings": [
+    {
+      "building_id": "bldg_001",
+      "bldg_use_cn": "商业设施",
+      "bldg_height": 45.0,
+      "centroid_lat": 35.6595,
+      "centroid_lon": 139.7005
+    },
+    {
+      "building_id": "bldg_002",
+      "bldg_use_cn": "办公楼",
+      "bldg_height": 65.0,
+      "centroid_lat": 35.6604,
+      "centroid_lon": 139.6993
+    }
+  ]
+}
+
