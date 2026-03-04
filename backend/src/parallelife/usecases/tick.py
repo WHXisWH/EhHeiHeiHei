@@ -62,9 +62,9 @@ class TickAgentUseCase:
         # memory pruning (MVP)
         await PruneConversationMemoryUseCase(self._conversations).execute(agent_id)
 
-        nearby_pois = await self._geo.list_nearby_pois(lat=pos.lat, lon=pos.lon, radius_m=200.0)
-        nearby_buildings = await self._geo.list_nearby_buildings(lat=pos.lat, lon=pos.lon, radius_m=200.0)
-        nearby_agents = await self._locator.list_agents_within(lat=pos.lat, lon=pos.lon, radius_m=50.0)
+        nearby_pois = await self._geo.list_nearby_pois(lat=pos.lat, lon=pos.lon, radius_m=500.0)
+        nearby_buildings = await self._geo.list_nearby_buildings(lat=pos.lat, lon=pos.lon, radius_m=500.0)
+        nearby_agents = await self._locator.list_agents_within(lat=pos.lat, lon=pos.lon, radius_m=100.0)
         nearby_agents = [a for a in nearby_agents if a.get("agent_id") != str(agent_id)]
         pending = await self._conversations.get_pending_user_message(agent_id)
         history = await self._conversations.get_recent(agent_id, limit=10)
@@ -77,17 +77,33 @@ class TickAgentUseCase:
             "updated_at": city.updated_at.isoformat() + "Z",
         }
 
+        personality_guide = {
+            "社交达人": "你热爱社交，喜欢去热闹的地方，会主动和路人搭话，经常逛街购物或在咖啡馆和朋友相聚，偶尔在SNS发帖分享日常。",
+            "内向观察者": "你享受独处，喜欢安静的书店、公园或咖啡馆，观察周围的人和事，偶尔在SNS发深度的文字感悟，不轻易和陌生人交流。",
+            "野心家": "你目标明确，每天都在提升自己——健身、学习、工作。你喜欢效率高的地方，对金钱有规划，偶尔因压力情绪波动。",
+            "随遇而安": "你随性而为，喜欢漫无目的地闲逛，发现有趣的地方就进去看看，对食物和体验很感兴趣，心情容易受天气和周围氛围影响。",
+        }
+        personality_hint = personality_guide.get(agent.personality_type, "按自己的个性行动。")
+
         prompt = {
-            "system": "你必须只输出符合 schema 的有效 JSON，不要输出多余文字。",
-            "schema": {
-                "action": "move|enter|exit|interact|post_sns|idle|reply",
-                "target": "poi_id 或 building_id 或 agent_id 或 null",
-                "destination": {"lat": "number", "lon": "number"},
-                "speech": "string|null",
-                "reply_to_user": "string|null",
-                "internal_thought": "string",
-                "mood_change": "integer(-10..10)",
-                "estimated_cost": "integer",
+            "instruction": (
+                "你是一个生活在涩谷的虚拟角色，正在自主决定下一步行动。"
+                "根据你的个性、当前位置、附近场所和心情，做出符合逻辑的决策。"
+                f"个性指引：{personality_hint}"
+                "优先考虑 move 动作去探索不同的地点。避免连续多次 idle。"
+                "如果有 pending_user_message，必须用 reply_to_user 回应，并保持角色个性。"
+                "destination 必须选择 nearby_pois 中某个 POI 的坐标，或在当前位置附近（300m 以内）。"
+                "只输出符合 schema 的 JSON，不输出任何额外文字。"
+            ),
+            "output_schema": {
+                "action": "move | enter | exit | interact | post_sns | idle | reply",
+                "target": "poi_id（来自 nearby_pois）或 null",
+                "destination": {"lat": "float", "lon": "float"},
+                "speech": "说出来的话（可选）",
+                "reply_to_user": "回复用户的内容（有 pending_user_message 时必填）",
+                "internal_thought": "角色内心独白（必填，不超过 50 字）",
+                "mood_change": "整数 -10 到 10",
+                "estimated_cost": "花费日元（整数，>= 0）",
             },
             "agent": {
                 "display_name": agent.display_name,
@@ -101,17 +117,17 @@ class TickAgentUseCase:
             "now": {"time": _utcnow().isoformat() + "Z"},
             "city_context": city_dict,
             "position": {"lat": pos.lat, "lon": pos.lon, "status": pos.status, "place_type": pos.place_type},
-            "nearby_pois": nearby_pois[:10],
-            "nearby_buildings": nearby_buildings[:10],
-            "nearby_agents": nearby_agents[:10],
+            "nearby_pois": nearby_pois[:15],
+            "nearby_buildings": nearby_buildings[:5],
+            "nearby_agents": nearby_agents[:5],
             "conversation_history": [
                 {"role": m.role, "content": m.content, "created_at": m.created_at.isoformat() + "Z"}
                 for m in history
             ],
             "pending_user_message": pending.content if pending else None,
             "constraints": {
-                "max_move_m_per_tick": 100,
-                "must_choose_target_from_nearby": True,
+                "max_move_m_per_tick": 300,
+                "destination_must_be_from_nearby_pois_or_within_300m": True,
                 "shibuya_bbox": {
                     "min_lat": self._settings.shibuya_min_lat,
                     "max_lat": self._settings.shibuya_max_lat,
@@ -151,6 +167,7 @@ class TickAgentUseCase:
             nearby_poi_ids=nearby_poi_ids,
             nearby_building_ids=nearby_building_ids,
             nearby_agent_ids=nearby_agent_ids,
+            max_move_m=300.0,
         )
 
         # Apply decision

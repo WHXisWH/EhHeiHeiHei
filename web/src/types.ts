@@ -43,6 +43,16 @@ export type EventItem = {
   created_at: string;
 };
 
+export type ConversationMessage = {
+  message_id: string;
+  agent_id: string;
+  role: "user" | "assistant";
+  content: string;
+  processed: boolean;
+  importance: number;
+  created_at: string;
+};
+
 export type WsMessage =
   | { type: "subscribed"; payload: { agent_ids: string[] } }
   | { type: "agent.position"; payload: WsAgentPosition }

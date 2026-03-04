@@ -20,9 +20,12 @@ _JSON_OBJECT_RE = re.compile(r"\{.*\}", re.DOTALL)
 
 def _extract_json_object(text: str) -> str:
     text = text.strip()
+    # Strip markdown code fences if present
+    text = re.sub(r"^```(?:json)?\s*", "", text)
+    text = re.sub(r"\s*```$", "", text.strip())
     match = _JSON_OBJECT_RE.search(text)
     if not match:
-        raise ValueError("Gemini response did not contain a JSON object.")
+        raise ValueError(f"Gemini response did not contain a JSON object. Raw: {text[:500]}")
     return match.group(0)
 
 
@@ -42,8 +45,8 @@ class VertexAIGeminiDecisionClient(AiDecisionClient):
         project_id: str,
         location: str,
         model: str,
-        temperature: float = 0.7,
-        max_output_tokens: int = 500,
+        temperature: float = 1.0,
+        max_output_tokens: int = 1024,
     ) -> None:
         self._project_id = project_id
         self._location = location
@@ -91,10 +94,12 @@ class VertexAIGeminiDecisionClient(AiDecisionClient):
             "generationConfig": {
                 "temperature": self._temperature,
                 "maxOutputTokens": self._max_output_tokens,
+                # Force structured JSON output — supported by Gemini 2.0+
+                "responseMimeType": "application/json",
             },
         }
 
-        async with httpx.AsyncClient(timeout=30.0) as client:
+        async with httpx.AsyncClient(timeout=60.0) as client:
             resp = await client.post(
                 url,
                 headers={"Authorization": f"Bearer {token}"},
@@ -109,10 +114,16 @@ class VertexAIGeminiDecisionClient(AiDecisionClient):
 
         content = candidates[0].get("content") or {}
         parts = content.get("parts") or []
-        if not parts or "text" not in parts[0]:
-            raise RuntimeError(f"Vertex AI response missing text: {json.dumps(data)[:1000]}")
 
-        text = str(parts[0]["text"])
+        # Find the last non-thinking text part (Gemini 2.5 may emit thought parts first)
+        text = None
+        for part in reversed(parts):
+            if "text" in part and not part.get("thought"):
+                text = str(part["text"])
+                break
+
+        if text is None:
+            raise RuntimeError(f"Vertex AI response missing text part: {json.dumps(data)[:1000]}")
+
         json_text = _extract_json_object(text)
         return Decision.model_validate_json(json_text)
-

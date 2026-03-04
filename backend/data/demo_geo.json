@@ -1,51 +1,36 @@
 {
   "pois": [
-    {
-      "poi_id": "poi_shibuya_109",
-      "name": "涩谷 109",
-      "category_cn": "购物",
-      "category": "shopping",
-      "lat": 35.6595,
-      "lon": 139.7005,
-      "is_open": true,
-      "bldg_use_cn": "商业设施"
-    },
-    {
-      "poi_id": "poi_familymart_1",
-      "name": "全家便利店",
-      "category_cn": "便利店",
-      "category": "convenience",
-      "lat": 35.6598,
-      "lon": 139.7012,
-      "is_open": true,
-      "bldg_use_cn": "商业设施"
-    },
-    {
-      "poi_id": "poi_starbucks_1",
-      "name": "星巴克涩谷店",
-      "category_cn": "咖啡",
-      "category": "cafe",
-      "lat": 35.6592,
-      "lon": 139.6998,
-      "is_open": true,
-      "bldg_use_cn": "商业设施"
-    }
+    {"poi_id":"poi_shibuya_scramble","name":"涩谷十字路口","category_cn":"广场/地标","category":"landmark","lat":35.6595,"lon":139.7005,"is_open":true,"bldg_use_cn":"公共空间"},
+    {"poi_id":"poi_shibuya_109","name":"涩谷 109","category_cn":"购物","category":"shopping","lat":35.6583,"lon":139.6993,"is_open":true,"bldg_use_cn":"商业设施"},
+    {"poi_id":"poi_shibuya_hikarie","name":"Shibuya Hikarie","category_cn":"综合商业","category":"shopping","lat":35.6580,"lon":139.7027,"is_open":true,"bldg_use_cn":"商业设施"},
+    {"poi_id":"poi_shibuya_stream","name":"Shibuya Stream","category_cn":"商业/休闲","category":"leisure","lat":35.6568,"lon":139.7012,"is_open":true,"bldg_use_cn":"商业设施"},
+    {"poi_id":"poi_mark_city","name":"Shibuya Mark City","category_cn":"购物/餐饮","category":"shopping","lat":35.6577,"lon":139.6987,"is_open":true,"bldg_use_cn":"商业设施"},
+    {"poi_id":"poi_miyashita_park","name":"Miyashita Park","category_cn":"公园/商业","category":"park","lat":35.6619,"lon":139.7036,"is_open":true,"bldg_use_cn":"公共空间"},
+    {"poi_id":"poi_bunkamura","name":"Bunkamura","category_cn":"文化/艺术","category":"culture","lat":35.6609,"lon":139.6963,"is_open":true,"bldg_use_cn":"文化设施"},
+    {"poi_id":"poi_tower_records","name":"Tower Records 涩谷店","category_cn":"音乐/娱乐","category":"entertainment","lat":35.6614,"lon":139.6983,"is_open":true,"bldg_use_cn":"商业设施"},
+    {"poi_id":"poi_loft_shibuya","name":"Loft 涩谷","category_cn":"生活杂货","category":"shopping","lat":35.6613,"lon":139.7003,"is_open":true,"bldg_use_cn":"商业设施"},
+    {"poi_id":"poi_starbucks_scramble","name":"星巴克涩谷十字路口店","category_cn":"咖啡","category":"cafe","lat":35.6592,"lon":139.6998,"is_open":true,"bldg_use_cn":"商业设施"},
+    {"poi_id":"poi_familymart_higashi","name":"全家便利店 涩谷东口","category_cn":"便利店","category":"convenience","lat":35.6598,"lon":139.7012,"is_open":true,"bldg_use_cn":"商业设施"},
+    {"poi_id":"poi_lawson_1","name":"Lawson 涩谷","category_cn":"便利店","category":"convenience","lat":35.6601,"lon":139.7018,"is_open":true,"bldg_use_cn":"商业设施"},
+    {"poi_id":"poi_mcdonalds_shibuya","name":"麦当劳 涩谷店","category_cn":"快餐","category":"restaurant","lat":35.6596,"lon":139.7008,"is_open":true,"bldg_use_cn":"商业设施"},
+    {"poi_id":"poi_ramen_ippudo","name":"一风堂 涩谷店","category_cn":"拉面","category":"restaurant","lat":35.6603,"lon":139.6985,"is_open":true,"bldg_use_cn":"商业设施"},
+    {"poi_id":"poi_izakaya_torikizoku","name":"鸟贵族 涩谷店","category_cn":"居酒屋","category":"bar","lat":35.6608,"lon":139.7025,"is_open":true,"bldg_use_cn":"商业设施"},
+    {"poi_id":"poi_karaoke_shibuya","name":"Karaoke Kan 涩谷","category_cn":"卡拉OK","category":"entertainment","lat":35.6611,"lon":139.6995,"is_open":true,"bldg_use_cn":"商业设施"},
+    {"poi_id":"poi_gym_jexer","name":"Jexer 涩谷健身房","category_cn":"健身","category":"sports","lat":35.6623,"lon":139.6975,"is_open":true,"bldg_use_cn":"商业设施"},
+    {"poi_id":"poi_harajuku_takeshita","name":"原宿竹下通","category_cn":"购物街","category":"shopping","lat":35.6708,"lon":139.7026,"is_open":true,"bldg_use_cn":"商业区"},
+    {"poi_id":"poi_omotesando_hills","name":"表参道Hills","category_cn":"高端购物","category":"shopping","lat":35.6650,"lon":139.7128,"is_open":true,"bldg_use_cn":"商业设施"},
+    {"poi_id":"poi_yoyogi_park","name":"代代木公园","category_cn":"公园","category":"park","lat":35.6716,"lon":139.6949,"is_open":true,"bldg_use_cn":"公共空间"},
+    {"poi_id":"poi_meiji_shrine","name":"明治神宫","category_cn":"神社","category":"shrine","lat":35.6763,"lon":139.6993,"is_open":true,"bldg_use_cn":"宗教设施"},
+    {"poi_id":"poi_daikanyama_tsite","name":"代官山T-Site","category_cn":"书店/咖啡","category":"cafe","lat":35.6487,"lon":139.7025,"is_open":true,"bldg_use_cn":"商业设施"},
+    {"poi_id":"poi_nakameguro_starbucks","name":"星巴克中目黑店（河边）","category_cn":"咖啡","category":"cafe","lat":35.6434,"lon":139.6998,"is_open":true,"bldg_use_cn":"商业设施"},
+    {"poi_id":"poi_shibuya_parco","name":"涩谷 PARCO","category_cn":"购物","category":"shopping","lat":35.6607,"lon":139.6989,"is_open":true,"bldg_use_cn":"商业设施"},
+    {"poi_id":"poi_shibuya_foodshow","name":"东急 Food Show","category_cn":"超市/食品","category":"supermarket","lat":35.6589,"lon":139.7019,"is_open":true,"bldg_use_cn":"商业设施"}
   ],
   "buildings": [
-    {
-      "building_id": "bldg_001",
-      "bldg_use_cn": "商业设施",
-      "bldg_height": 45.0,
-      "centroid_lat": 35.6595,
-      "centroid_lon": 139.7005
-    },
-    {
-      "building_id": "bldg_002",
-      "bldg_use_cn": "办公楼",
-      "bldg_height": 65.0,
-      "centroid_lat": 35.6604,
-      "centroid_lon": 139.6993
-    }
+    {"building_id":"bldg_001","bldg_use_cn":"商业设施","bldg_height":45.0,"centroid_lat":35.6595,"centroid_lon":139.7005},
+    {"building_id":"bldg_002","bldg_use_cn":"办公楼","bldg_height":65.0,"centroid_lat":35.6604,"centroid_lon":139.6993},
+    {"building_id":"bldg_003","bldg_use_cn":"住宅","bldg_height":30.0,"centroid_lat":35.6640,"centroid_lon":139.7010},
+    {"building_id":"bldg_004","bldg_use_cn":"综合商业","bldg_height":52.0,"centroid_lat":35.6580,"centroid_lon":139.7027},
+    {"building_id":"bldg_005","bldg_use_cn":"文化设施","bldg_height":28.0,"centroid_lat":35.6609,"centroid_lon":139.6963}
   ]
 }
-

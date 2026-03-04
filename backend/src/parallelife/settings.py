@@ -15,7 +15,7 @@ class Settings(BaseSettings):
 
     gcp_project_id: str | None = Field(default=None, validation_alias="GCP_PROJECT_ID")
     gcp_location: str = Field(default="asia-northeast1", validation_alias="GCP_LOCATION")
-    vertex_gemini_model: str = Field(default="gemini-1.5-flash", validation_alias="VERTEX_GEMINI_MODEL")
+    vertex_gemini_model: str = Field(default="gemini-2.5-flash", validation_alias="VERTEX_GEMINI_MODEL")
 
     firestore_database: str = Field(default="(default)", validation_alias="FIRESTORE_DATABASE")
 

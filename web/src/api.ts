@@ -1,6 +1,6 @@
-import type { Agent, EventItem, SnsPost } from "./types";
+import type { Agent, ConversationMessage, EventItem, SnsPost } from "./types";
 
-const API_BASE = import.meta.env.VITE_API_BASE ?? "http://localhost:8000";
+const API_BASE = import.meta.env.VITE_API_BASE ?? "";
 
 export async function seedDemo(): Promise<string[]> {
   const resp = await fetch(`${API_BASE}/internal/seed-demo`, { method: "POST" });
@@ -42,4 +42,11 @@ export async function listEvents(): Promise<EventItem[]> {
   if (!resp.ok) throw new Error(await resp.text());
   const data = (await resp.json()) as { events: EventItem[] };
   return data.events;
+}
+
+export async function getConversations(agentId: string): Promise<ConversationMessage[]> {
+  const resp = await fetch(`${API_BASE}/api/v1/agents/${agentId}/conversations?limit=20`);
+  if (!resp.ok) throw new Error(await resp.text());
+  const data = (await resp.json()) as { messages: ConversationMessage[] };
+  return data.messages;
 }

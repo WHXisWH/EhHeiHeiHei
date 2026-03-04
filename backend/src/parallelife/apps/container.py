@@ -84,6 +84,7 @@ def build_container(settings: Settings) -> Container:
             project_id=settings.gcp_project_id,
             location=settings.gcp_location,
             model=settings.vertex_gemini_model,
+            max_output_tokens=2048,
         )
 
     if settings.app_env == "test":

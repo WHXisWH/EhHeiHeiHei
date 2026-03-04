@@ -1,0 +1,11 @@
+.gcloudignore
+.git
+.gitignore
+**/.DS_Store
+web/node_modules
+web/dist
+backend/tests
+backend/scripts
+backend/data
+**/__pycache__
+**/*.pyc

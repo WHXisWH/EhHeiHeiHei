@@ -34,21 +34,23 @@ class PruneConversationMemoryUseCase:
         normal_cutoff = now - timedelta(hours=self._policy.normal_ttl_hours)
         important_cutoff = now - timedelta(hours=self._policy.important_ttl_hours)
 
-        last_recent_ids = {m.message_id for m in msgs[-self._policy.max_recent :]}
-
         keep_ids: set[str] = set()
         for m in msgs:
-            if m.message_id in last_recent_ids:
-                keep_ids.add(m.message_id)
-                continue
-
             if m.importance >= self._policy.importance_threshold:
+                # High-importance messages: retain within extended TTL
                 if m.created_at >= important_cutoff:
                     keep_ids.add(m.message_id)
-                continue
+            else:
+                # Normal messages: TTL always wins, regardless of position
+                if m.created_at >= normal_cutoff:
+                    keep_ids.add(m.message_id)
 
-            if m.created_at >= normal_cutoff:
-                keep_ids.add(m.message_id)
+        # Safety net: never wipe all context — always keep the last few messages
+        # that are at least within the important TTL window.
+        if not keep_ids:
+            for m in msgs[-self._policy.max_recent :]:
+                if m.created_at >= important_cutoff:
+                    keep_ids.add(m.message_id)
 
         deleted = 0
         for m in msgs:
